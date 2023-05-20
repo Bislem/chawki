@@ -1,6 +1,7 @@
 import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { AuthService } from 'src/app/common/auth/auth.service';
 
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private socialAuthService: SocialAuthService
+    private socialAuthService: SocialAuthService,
+    private router: Router
   ) {
 
   }
@@ -38,6 +40,7 @@ export class LoginComponent implements OnInit {
     this.authService.fireSignIn(email, pass).then(user => {
       alert('Logged in successfully');
       console.log(user);
+      this.router.navigate(['/posts'])
     }).catch(err => {
       alert('Password or email is wrong please check again');
     })
@@ -46,11 +49,13 @@ export class LoginComponent implements OnInit {
   facebookAuth() {
     this.authService.signInWithFB().then(user => {
       console.log(`####### USER => `, user);
+      this.router.navigate(['/posts'])
     });
   }
   googleAuth() {
     this.authService.signInWithGoogle().then(user => {
       console.log(`####### USER => `, user);
+      this.router.navigate(['/posts'])
     });
   }
 }

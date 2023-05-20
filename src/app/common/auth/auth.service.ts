@@ -35,7 +35,8 @@ export class AuthService {
   }
 
   isAuth() {
-    return new Promise<Boolean>((resolve) => {
+    return new Promise<boolean>((resolve) => {
+      console.log(this.LOGIN_METHOD);
       switch (this.LOGIN_METHOD) {
         case null:
           resolve(false);
