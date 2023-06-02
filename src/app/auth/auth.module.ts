@@ -7,7 +7,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SocialLoginModule } from '@abacritt/angularx-social-login';
 const routes: Routes = [
   {
     path: '',
@@ -28,7 +27,6 @@ const routes: Routes = [
     MatInputModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    SocialLoginModule
   ],
   exports: [
     RouterModule

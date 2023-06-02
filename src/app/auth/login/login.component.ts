@@ -1,8 +1,6 @@
-import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { AuthService } from 'src/app/common/auth/auth.service';
 
 @Component({
@@ -16,7 +14,6 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private socialAuthService: SocialAuthService,
     private router: Router
   ) {
 
@@ -24,7 +21,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.signOut();
-    this.authService.isAuth().then(res=>console.log(res));
+    this.authService.isAuthenticated().subscribe(res => console.log(res));
     this.authForm = new FormGroup({
       email: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required)
@@ -37,7 +34,7 @@ export class LoginComponent implements OnInit {
     if (!email && !pass) {
       return alert("please fill the form first");
     }
-    this.authService.fireSignIn(email, pass).then(user => {
+    this.authService.signInWithFirebase(email, pass).then(user => {
       alert('Logged in successfully');
       console.log(user);
       this.router.navigate(['/posts'])
@@ -47,7 +44,7 @@ export class LoginComponent implements OnInit {
   }
 
   facebookAuth() {
-    this.authService.signInWithFB().then(user => {
+    this.authService.signInWithFacebook().then(user => {
       console.log(`####### USER => `, user);
       this.router.navigate(['/posts'])
     });
@@ -55,7 +52,7 @@ export class LoginComponent implements OnInit {
   googleAuth() {
     this.authService.signInWithGoogle().then(user => {
       console.log(`####### USER => `, user);
-      this.router.navigate(['/posts'])
+      this.router.navigate(['/posts']);
     });
   }
 }

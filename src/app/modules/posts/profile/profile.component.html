@@ -1,0 +1,45 @@
+<div class="min-h-screen relative w-screen overflow-hidden">
+    <!-- action  -->
+    <div class="w-full py-4 px-6 flex flex-row items-center">
+        <nav class="flex flex-row ml-auto">
+            <button [routerLink]="['/','posts']" class="mr-3" mat-button>Home</button>
+            <button [routerLink]="['/','my-sites']" class="mr-3" mat-button>Sits</button>
+            <button [routerLink]="['/','profile']" class="mr-3" mat-button>Profile</button>
+            <button [routerLink]="['/','notifications']" class="mr-3" mat-button>Notifs</button>
+            <button class="mr-3" mat-button (click)="logout()">logout</button>
+        </nav>
+    </div>
+    <div class="p-5 flex flex-col items-center">
+        <h2>Profile</h2>
+        <mat-card class="max-w-5xl w-full mb-5">
+            <mat-card-header>
+                <mat-icon mat-card-avatar fontIcon="person"></mat-icon>
+                <mat-card-title>{{user?.displayName || user?.email }}</mat-card-title>
+                <mat-card-subtitle>{{user?.metadata?.creationTime}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="p-5" [formGroup]="userForm">
+                    <mat-form-field class="w-full">
+                        <mat-label>display Name</mat-label>
+                        <input matInput formControlName="displayName" placeholder="Display Name">
+                    </mat-form-field>
+
+                    <mat-form-field class="w-full">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email" placeholder="Email">
+                    </mat-form-field>
+
+                    <mat-form-field class="w-full">
+                        <mat-label>Password</mat-label>
+                        <input matInput formControlName="password" type="password" placeholder="Password">
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+            <mat-card-actions [align]="'end'">
+                <button class="mr-4" (click)="updateProfile()" mat-raised-button color="primary">save</button>
+                <button mat-raised-button color="light">cancel</button>
+                <button mat-raised-button color="light" (click)="verifyEmail()" [disabled]="user?.emailVerified">{{user?.emailVerified ? 'Email is verified' : 'verify your email now'}}</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>

@@ -1,81 +1,58 @@
-import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from '@abacritt/angularx-social-login';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { catchError, map, of, take, takeLast, tap } from 'rxjs';
+import { FacebookAuthProvider, GoogleAuthProvider, User } from 'firebase/auth';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
+  currentUser!: BehaviorSubject<firebase.default.User | null>;
 
-  LOGIN_METHOD: 'fire' | 'fb' | 'google' | null = null;
-  LOGIN_METHOD_KEY = "LOGIN_METHOD_KEY";
-
-  constructor(
-    private authService: SocialAuthService,
-    private fireAuth: AngularFireAuth
-  ) {
-    this.LOGIN_METHOD = localStorage.getItem(this.LOGIN_METHOD_KEY) as any;
-    console.log(this.LOGIN_METHOD);
+  constructor(private afAuth: AngularFireAuth) {
+    this.currentUser = new BehaviorSubject(null) as BehaviorSubject<firebase.default.User | null>;
   }
 
-  signInWithFB() {
-    localStorage.setItem(this.LOGIN_METHOD_KEY, 'fb');
-    return this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  signInWithFacebook() {
+    return this.afAuth.signInWithPopup(new FacebookAuthProvider());
   }
 
   signInWithGoogle() {
-    localStorage.setItem(this.LOGIN_METHOD_KEY, 'google');
-    return this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+    return this.afAuth.signInWithPopup(new GoogleAuthProvider());
   }
 
-  fireSignIn(email: string, pass: string) {
-    localStorage.setItem(this.LOGIN_METHOD_KEY, 'fire');
-    return this.fireAuth.signInWithEmailAndPassword(email, pass);
+  signInWithFirebase(email: string, password: string) {
+    return this.afAuth.signInWithEmailAndPassword(email, password);
   }
 
-  isAuth() {
-    return new Promise<boolean>((resolve) => {
-      console.log(this.LOGIN_METHOD);
-      switch (this.LOGIN_METHOD) {
-        case null:
-          resolve(false);
-          break;
-        case 'fb':
-          this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then(user => {
-            if (user) {
-              resolve(true);
-            } else {
-              resolve(false)
-            }
-          });
-          break;
-        case 'fire':
-          this.fireAuth.currentUser.then(user => {
-            console.log(user);
-            if (user) {
-              resolve(true)
-            } else {
-              resolve(false)
-            }
-          });
-          break;
-        case 'google':
-          this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user => {
-            if (user) {
-              resolve(true);
-            } else {
-              resolve(false)
-            }
-          });
-          break;
-      }
+  signOut() {
+    return this.afAuth.signOut();
+  }
+
+  isAuthenticated(): Observable<boolean> {
+    return this.afAuth.authState.pipe(
+      tap(user => {
+        this.currentUser.next(user);
+      }),
+      map((user) => !!user),
+    );
+  }
+
+  getCurrentUser(): Observable<firebase.default.User | null> {
+    return this.afAuth.user.pipe(tap(user => {
+      this.currentUser.next(user);
+    }));
+  }
+
+  updateDisplayName(dname: string) {
+    return this.currentUser.getValue()?.updateProfile({
+      displayName: dname,
     });
   }
 
-  signOut(): void {
-    localStorage.removeItem(this.LOGIN_METHOD_KEY);
-    this.fireAuth.signOut();
-    this.authService.signOut();
+  sendEmailValidation() {
+    this.currentUser.getValue()?.sendEmailVerification().then(res => {
+      alert('validate your email please, check your inbox');
+    });
   }
 }

@@ -1,0 +1,14 @@
+<div>
+    <form [formGroup]="form" class="w-full p-5 flex flex-col items-center">
+        <h1 class="flex-1 text-left">{{data.mode}} Sit</h1>
+        <mat-form-field class="w-full">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" placeholder="Title">
+        </mat-form-field>
+        <mat-form-field class="w-full">
+            <mat-label>Content</mat-label>
+            <textarea matInput formControlName="content" placeholder="Content here"></textarea>
+        </mat-form-field>
+        <button (click)="submit()" mat-raised-button color="primary" class="block w-full">Submit</button>
+    </form>
+</div>
