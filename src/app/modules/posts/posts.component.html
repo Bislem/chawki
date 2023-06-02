@@ -22,10 +22,10 @@
         <mat-card-title>{{p.owner.displayName || p.owner.email}}</mat-card-title>
         <mat-card-subtitle>{{p.createdAt| datePipe}}</mat-card-subtitle>
         <div class="flex-1"></div>
-        <button mat-icon-button *ngIf="isMyPost(p)" (click)="openModal('edit',p)">
-          <mat-icon>edit</mat-icon>
-        </button>
         <button mat-icon-button *ngIf="isMyPost(p)" (click)="deletePost(p)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button *ngIf="isMyPost(p)" (click)="openModal('edit',p)">
           <mat-icon>edit</mat-icon>
         </button>
       </mat-card-header>
