@@ -37,7 +37,6 @@
             </mat-card-content>
             <mat-card-actions [align]="'end'">
                 <button class="mr-4" (click)="updateProfile()" mat-raised-button color="primary">save</button>
-                <button mat-raised-button color="light">cancel</button>
                 <button mat-raised-button color="light" (click)="verifyEmail()" [disabled]="user?.emailVerified">{{user?.emailVerified ? 'Email is verified' : 'verify your email now'}}</button>
             </mat-card-actions>
         </mat-card>

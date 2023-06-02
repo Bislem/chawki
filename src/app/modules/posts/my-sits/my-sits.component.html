@@ -1,1 +1,46 @@
-<p>my-sits works!</p>
+<div class="relative min-h-screen relative w-screen overflow-hidden">
+    <div class="z-10 fixed bottom-[20px] right-[20px]">
+      <button mat-fab class="" (click)="openModal('new')">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <!-- action  -->
+    <div class="w-full py-4 px-6 flex flex-row items-center">
+      <nav class="flex flex-row ml-auto">
+        <button [routerLink]="['/','posts','']" class="mr-3" mat-button>Home</button>
+        <button [routerLink]="['/','posts','my-sits']" class="mr-3" mat-button>My Sits</button>
+        <button [routerLink]="['/','posts','profile']" class="mr-3" mat-button>Profile</button>
+        <button [routerLink]="['/','posts','notifications']" class="mr-3" mat-button>Notifs</button>
+        <button class="mr-3" mat-button (click)="logout()">logout</button>
+      </nav>
+    </div>
+    <div class="p-5 flex flex-col items-center">
+      <h2>All Sits</h2>
+      <mat-card class="max-w-xl w-full mb-5" *ngFor="let p of posts">
+        <mat-card-header>
+          <mat-icon mat-card-avatar fontIcon="person"></mat-icon>
+          <mat-card-title>{{p.owner.displayName || p.owner.email}}</mat-card-title>
+          <mat-card-subtitle>{{p.createdAt| datePipe}}</mat-card-subtitle>
+          <div class="flex-1"></div>
+          <button mat-icon-button *ngIf="isMyPost(p)" (click)="deletePost(p)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-icon-button *ngIf="isMyPost(p)" (click)="openModal('edit',p)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-card-header>
+        <mat-card-content>
+          <h1>{{p.title}}</h1>
+          <p [innerHTML]="p.content">
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button [color]="didLike(p) ? 'primary' : 'light'" (click)="like(p)">
+            <mat-icon matPrefix>thumb_up</mat-icon>
+            {{didLike(p) ? 'Dislike' : 'like'}}
+          </button>
+          <button mat-button>SHARE</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>

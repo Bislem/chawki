@@ -7,10 +7,15 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RegisterComponent } from './register/register.component';
 const routes: Routes = [
   {
     path: '',
     component: LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   }
 ]
 
@@ -18,6 +23,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     CommonModule,

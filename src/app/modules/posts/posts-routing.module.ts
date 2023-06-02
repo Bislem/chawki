@@ -12,6 +12,10 @@ const postsResolver: ResolveFn<Post[]> = () => {
   return inject(PostsService).getPosts();
 }
 
+const mypostsResolver: ResolveFn<Post[]> = () => {
+  return inject(PostsService).getMyPosts();
+}
+
 
 const routes: Routes = [
   {
@@ -26,6 +30,8 @@ const routes: Routes = [
   {
     path: 'my-sits',
     component: MySitsComponent,
+    resolve: { posts: mypostsResolver }
+
   },
   {
     path: 'notifications',

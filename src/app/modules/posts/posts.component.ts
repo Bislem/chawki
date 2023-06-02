@@ -68,6 +68,12 @@ export class PostsComponent implements OnInit {
     });
   }
 
+  deletePost(p: Post) {
+    this.postsService.deletePost(p.id).then(res => {
+      this.postsService.getPosts().subscribe();
+    });
+  }
+
   openModal(mode: "new" | "edit", post?: Post) {
     const dialog = this.dialogRef.open(PostDialogComponent, {
       data: { post, mode, user: this.user },

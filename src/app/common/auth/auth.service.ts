@@ -55,4 +55,8 @@ export class AuthService {
       alert('validate your email please, check your inbox');
     });
   }
+
+  createUser(email: string,password: string){
+    return this.afAuth.createUserWithEmailAndPassword(email,password);
+  }
 }

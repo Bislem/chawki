@@ -1,0 +1,26 @@
+<div class="flex flex-row items-center justify-center p-10 h-screen w-screen">
+    <mat-card>
+        <mat-card-content>
+            <div class="drop-shadow-2xl p-6 rounded-xl flex flex-col">
+                <h1 class="">Register</h1>
+                <section [formGroup]="authForm" class="flex flex-col">
+                    <mat-form-field class="w-full">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email" placeholder="Email">
+                    </mat-form-field>
+                    <mat-form-field class="w-full">
+                        <mat-label>Username</mat-label>
+                        <input matInput formControlName="displayName" placeholder="display Name">
+                    </mat-form-field>
+                    <mat-form-field class="w-full">
+                        <mat-label>password</mat-label>
+                        <input matInput type="password" formControlName="password" placeholder="password">
+                    </mat-form-field>
+                </section>
+
+                <button (click)="register()" mat-raised-button>Login</button>
+                
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
